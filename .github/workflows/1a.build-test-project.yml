@@ -79,11 +79,13 @@ jobs:
         with:
           context: .github
           push: false
+          load: true
+          outputs: type=docker,dest=./ldesserver.tar
           tags: '${{ env.GHCR_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}:${{ env.IMAGE_TAG }}'
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: '${{ env.GHCR_REGISTRY }}/${{ env.DOCKER_REPOSITORY }}:${{ env.IMAGE_TAG }}'
+          input: ./ldesserver.tar
           format: 'sarif'
           output: 'trivy-results.sarif'
 
